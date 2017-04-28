@@ -1,0 +1,29 @@
+## Visual Studio / .NET
+.vs/
+bin/
+obj/
+Debug/
+Release/
+*.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vspscc
+*.vssscc
+[Bb]in/
+[Oo]bj/
+packages/
+*.nupkg
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Build / IDE leftovers
+*.exe
+*.dll
+*.pdb
+*.cache
+*.ilk
+*.log
