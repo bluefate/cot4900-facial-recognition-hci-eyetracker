@@ -7,6 +7,22 @@
 
 Webcam / device-camera prototypes for face and eye tracking in HCI experiments.
 
+## Historical screenshots (Fall 2017)
+
+Stills taken from original **Eye Tracker Form** session recordings captured during the course. Overlays show the Emgu.CV / OpenCV pipeline as it ran in 2017: face (red), eyes (blue), iris (green).
+
+### 3 October 2017
+
+![Eye Tracker Form — 3 Oct 2017](Captures/stills/2017-10-03-eye-tracker-form.jpg)
+
+*Live webcam preview with Haar face/eye detection and iris circles. Source session: `Captures/2017-10-03/`.*
+
+### 7 November 2017
+
+![Eye Tracker Form — 7 Nov 2017](Captures/stills/2017-11-07-eye-tracker-form.jpg)
+
+*Later session with the same WinForms prototype. Source session: `Captures/2017-11-07/`.*
+
 ## Layout
 
 | Path | Description |
@@ -14,7 +30,7 @@ Webcam / device-camera prototypes for face and eye tracking in HCI experiments.
 | `EyeTracker.sln` | Active solution (Windows + Android) |
 | `src/EyeTracker/` | **.NET 8** WinForms eye tracker (`net8.0-windows`, Emgu.CV) |
 | `src/MobileEyeTracker/` | **.NET 8** Android eye/face tracker (`net8.0-android`, CameraX + ML Kit) |
-| `Captures/` | Session videos, session logs, and related media |
+| `Captures/` | Session videos, stills, session logs, and related media |
 | `archive/xamarin/` | Original Xamarin projects (Google Vision + OpenCV.Binding mobile) |
 | `submitted/orginal export submited/` | Original multipart `EyeTrackerTests.7z` submission archive |
 
