@@ -13,11 +13,11 @@ Stills from original **Eye Tracker Form** session recordings. Overlays: face (re
 
 **3 October 2017**
 
-<img src="Captures/stills/2017-10-03-eye-tracker-form.jpg" alt="Eye Tracker Form — 3 Oct 2017" width="280" />
+<img src="Captures/stills/2017-10-03-eye-tracker-form.jpg" alt="Eye Tracker Form — 3 Oct 2017" width="560" />
 
 **7 November 2017**
 
-<img src="Captures/stills/2017-11-07-eye-tracker-form.jpg" alt="Eye Tracker Form — 7 Nov 2017" width="280" />
+<img src="Captures/stills/2017-11-07-eye-tracker-form.jpg" alt="Eye Tracker Form — 7 Nov 2017" width="560" />
 
 ## Layout
 
