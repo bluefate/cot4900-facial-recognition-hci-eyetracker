@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Emgu.CV;
+using Emgu.CV.Bitmap;
 using Emgu.CV.Structure;
 
 namespace EyeTrackerOnWindows
@@ -10,10 +11,10 @@ namespace EyeTrackerOnWindows
 	{
 		private const int LineThickness = 1;
 
-		private VideoCapture _capture;
-		private ItemsDetected _faces;
-		private ItemsDetected _eyes;
-		private ItemsDetected _irises;
+		private VideoCapture? _capture;
+		private ItemsDetected? _faces;
+		private ItemsDetected? _eyes;
+		private ItemsDetected? _irises;
 		private bool _cameraErrorShown;
 
 		public EyeTrackerForm()
@@ -36,46 +37,41 @@ namespace EyeTrackerOnWindows
 			}
 		}
 
-		private void ProcessFrame(object sender, EventArgs e)
+		private void ProcessFrame(object? sender, EventArgs e)
 		{
-			if (_capture == null)
+			if (_capture == null || _faces == null || _eyes == null || _irises == null)
 				return;
 
 			try
 			{
-				using (Mat frame = _capture.QueryFrame())
+				using Mat frame = _capture.QueryFrame();
+				if (frame == null || frame.IsEmpty)
 				{
-					if (frame == null || frame.IsEmpty)
-					{
-						ShowCameraError("No image found. Camera may not be connected.");
-						return;
-					}
-
-					_cameraErrorShown = false;
-					ErrorMessage.Visible = false;
-
-					_faces.Rectangles.Clear();
-					_eyes.Rectangles.Clear();
-					_irises.Circles.Clear();
-
-					DetectFace.Detect(frame, _faces, _eyes, _irises);
-
-					foreach (Rectangle face in _faces.Rectangles)
-						CvInvoke.Rectangle(frame, face, new Bgr(Color.Red).MCvScalar, LineThickness);
-
-					foreach (Rectangle eye in _eyes.Rectangles)
-						CvInvoke.Rectangle(frame, eye, new Bgr(Color.Blue).MCvScalar, LineThickness);
-
-					foreach (Circle iris in _irises.Circles)
-						CvInvoke.Circle(frame, iris.Center, iris.Radius, new Bgr(Color.Green).MCvScalar, LineThickness);
-
-					Image previous = pictureBox1.Image;
-					using (Image<Bgr, byte> imageFrame = frame.ToImage<Bgr, byte>())
-					{
-						pictureBox1.Image = imageFrame.ToBitmap();
-					}
-					previous?.Dispose();
+					ShowCameraError("No image found. Camera may not be connected.");
+					return;
 				}
+
+				_cameraErrorShown = false;
+				ErrorMessage.Visible = false;
+
+				_faces.Rectangles.Clear();
+				_eyes.Rectangles.Clear();
+				_irises.Circles.Clear();
+
+				DetectFace.Detect(frame, _faces, _eyes, _irises);
+
+				foreach (Rectangle face in _faces.Rectangles)
+					CvInvoke.Rectangle(frame, face, new Bgr(Color.Red).MCvScalar, LineThickness);
+
+				foreach (Rectangle eye in _eyes.Rectangles)
+					CvInvoke.Rectangle(frame, eye, new Bgr(Color.Blue).MCvScalar, LineThickness);
+
+				foreach (Circle iris in _irises.Circles)
+					CvInvoke.Circle(frame, iris.Center, iris.Radius, new Bgr(Color.Green).MCvScalar, LineThickness);
+
+				Image? previous = pictureBox1.Image;
+				pictureBox1.Image = frame.ToBitmap();
+				previous?.Dispose();
 			}
 			catch
 			{
@@ -83,7 +79,7 @@ namespace EyeTrackerOnWindows
 			}
 		}
 
-		private void OnFormClosed(object sender, FormClosedEventArgs e)
+		private void OnFormClosed(object? sender, FormClosedEventArgs e)
 		{
 			Application.Idle -= ProcessFrame;
 			_capture?.Dispose();

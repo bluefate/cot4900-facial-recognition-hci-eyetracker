@@ -1,119 +1,155 @@
-﻿using Android.App;
+﻿using Android;
+using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
-using Android.Views;
-using Java.IO;
-using OpenCV.Android;
-using OpenCV.Core;
-using OpenCV.ImgProc;
-using OpenCV.ObjDetect;
-using Size = OpenCV.Core.Size;
+using Android.Widget;
+using AndroidX.AppCompat.App;
+using AndroidX.Camera.Core;
+using AndroidX.Camera.Lifecycle;
+using AndroidX.Camera.View;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
+using Java.Util.Concurrent;
+using Xamarin.Google.MLKit.Vision.Common;
+using Xamarin.Google.MLKit.Vision.Face;
 
 namespace EyeTrackerWithOpenCV
 {
-	[Activity(Label = "Eye Tracker", MainLauncher = true, Icon = "@drawable/eye")]
-
-	public class MainActivity : Activity, CameraBridgeViewBase.ICvCameraViewListener2
+	[Activity(
+		Label = "@string/app_name",
+		MainLauncher = true,
+		Theme = "@style/AppTheme",
+		ScreenOrientation = ScreenOrientation.Portrait)]
+	public class MainActivity : AppCompatActivity
 	{
-		private static readonly Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
+		private const int CameraPermissionRequest = 1001;
 
+		private PreviewView? _previewView;
+		private TextView? _statusText;
+		private IFaceDetector? _faceDetector;
+		private IExecutorService? _cameraExecutor;
 
-		private Mat colorMat;
-		private Mat grayMat;
-		public CascadeClassifier cascadeClassifier;
-		public File cascadeFile;
-		public DetectionBasedTracker detectionBasedTracker;
-		private float relativeFaceSize = 0.2f;
-		private int absoluteFaceSize = 0;
-		private CameraBridgeViewBase mPreview;
-		private LoaderCallback loaderCallback;
-		
-
-
-
-
-
-
-		protected override void OnCreate(Bundle savedInstanceState)
+		protected override void OnCreate(Bundle? savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-			Window.AddFlags(WindowManagerFlags.KeepScreenOn);
+			SetContentView(Resource.Layout.activity_main);
 
-			SetContentView(Resource.Layout.Main);
-			mPreview = FindViewById<CameraBridgeViewBase>(Resource.Id.surfaceView);
-			mPreview.Visibility = ViewStates.Visible;
-			mPreview.SetCvCameraViewListener2(this);
-			mPreview.SetCameraIndex(CameraBridgeViewBase.CameraIdFront);
-			//cameraView.EnableView();
-			loaderCallback = new LoaderCallback(this, this, mPreview);
-		}
+			_previewView = FindViewById<PreviewView>(Resource.Id.previewView);
+			_statusText = FindViewById<TextView>(Resource.Id.statusText);
+			_cameraExecutor = Executors.NewSingleThreadExecutor();
 
-		protected override void OnPause()
-		{
-			base.OnPause();
-			if (mPreview != null)
-				mPreview.DisableView();
-		}
+			_faceDetector = FaceDetection.GetClient(
+				new FaceDetectorOptions.Builder()
+					.SetPerformanceMode(FaceDetectorOptions.PerformanceModeFast)
+					.SetLandmarkMode(FaceDetectorOptions.LandmarkModeAll)
+					.SetClassificationMode(FaceDetectorOptions.ClassificationModeAll)
+					.Build());
 
-		protected override void OnResume()
-		{
-			base.OnResume();
-			if (!OpenCVLoader.InitDebug())
-				OpenCVLoader.InitAsync(OpenCVLoader.OpencvVersion300, this, loaderCallback);
+			if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.Camera) == Permission.Granted)
+				StartCamera();
 			else
-				loaderCallback.OnManagerConnected(LoaderCallbackInterface.Success);
+				ActivityCompat.RequestPermissions(this, new[] { Manifest.Permission.Camera }, CameraPermissionRequest);
+		}
+
+		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+		{
+			base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+			if (requestCode == CameraPermissionRequest &&
+			    grantResults.Length > 0 &&
+			    grantResults[0] == Permission.Granted)
+			{
+				StartCamera();
+			}
+			else if (_statusText != null)
+			{
+				_statusText.Text = "Camera permission is required.";
+			}
+		}
+
+		private void StartCamera()
+		{
+			var cameraProviderFuture = ProcessCameraProvider.GetInstance(this);
+			cameraProviderFuture.AddListener(new Java.Lang.Runnable(() =>
+			{
+				var cameraProvider = (ProcessCameraProvider)cameraProviderFuture.Get()!;
+				var preview = new Preview.Builder().Build();
+				preview.SetSurfaceProvider(_previewView!.SurfaceProvider);
+
+				var analysis = new ImageAnalysis.Builder()
+					.SetBackpressureStrategy(ImageAnalysis.StrategyKeepOnlyLatest)
+					.Build();
+
+				analysis.SetAnalyzer(_cameraExecutor!, new FaceAnalyzer(_faceDetector!, count =>
+				{
+					RunOnUiThread(() =>
+					{
+						if (_statusText != null)
+							_statusText.Text = count == 0 ? "No face" : $"Faces: {count}";
+					});
+				}));
+
+				cameraProvider.UnbindAll();
+				cameraProvider.BindToLifecycle(
+					this,
+					CameraSelector.DefaultFrontCamera,
+					preview,
+					analysis);
+			}), ContextCompat.GetMainExecutor(this));
 		}
 
 		protected override void OnDestroy()
 		{
 			base.OnDestroy();
-			mPreview.DisableView();
+			_faceDetector?.Close();
+			_cameraExecutor?.Shutdown();
 		}
 
-
-
-
-
-
-
-
-
-		public void OnCameraViewStarted(int width, int height)
+		private sealed class FaceAnalyzer : Java.Lang.Object, ImageAnalysis.IAnalyzer
 		{
-			grayMat = new Mat();
-			colorMat = new Mat();
-		}
+			private readonly IFaceDetector _detector;
+			private readonly Action<int> _onResult;
 
-		public void OnCameraViewStopped()
-		{
-			grayMat.Release();
-			colorMat.Release();
-		}
-
-		public Mat OnCameraFrame(CameraBridgeViewBase.ICvCameraViewFrame inputFrame)
-		{
-
-			colorMat = inputFrame.Rgba();
-			grayMat = inputFrame.Gray();
-
-			if (absoluteFaceSize == 0)
+			public FaceAnalyzer(IFaceDetector detector, Action<int> onResult)
 			{
-				int height = grayMat.Rows();
-				if (Java.Lang.Math.Round(height * relativeFaceSize) > 0)
-					absoluteFaceSize = Java.Lang.Math.Round(height * relativeFaceSize);
-				detectionBasedTracker.setMinFaceSize(absoluteFaceSize);
+				_detector = detector;
+				_onResult = onResult;
 			}
 
-			MatOfRect faces = new MatOfRect();
+			public void Analyze(IImageProxy imageProxy)
+			{
+				try
+				{
+					var mediaImage = imageProxy.Image;
+					if (mediaImage == null)
+						return;
 
-			if (detectionBasedTracker != null)
-				detectionBasedTracker.detect(grayMat, faces);
+					var input = InputImage.FromMediaImage(mediaImage, imageProxy.ImageInfo.RotationDegrees);
+					var task = _detector.Process(input);
+					task.AddOnSuccessListener(new SuccessListener(faces =>
+					{
+						_onResult(faces?.Size() ?? 0);
+					}));
+					task.AddOnCompleteListener(new CompleteListener(() => imageProxy.Close()));
+				}
+				catch
+				{
+					imageProxy.Close();
+				}
+			}
+		}
 
-			Rect[] facesArray = faces.ToArray();
-			for (int i = 0; i < facesArray.Length; i++)
-				Imgproc.Rectangle(colorMat, facesArray[i].Tl(), facesArray[i].Br(), FACE_RECT_COLOR, 1); //CameraBridgeViewBase.HAIR_LINE
+		private sealed class SuccessListener : Java.Lang.Object, Android.Gms.Tasks.IOnSuccessListener
+		{
+			private readonly Action<Java.Util.IList?> _callback;
+			public SuccessListener(Action<Java.Util.IList?> callback) => _callback = callback;
+			public void OnSuccess(Java.Lang.Object? result) => _callback(result as Java.Util.IList);
+		}
 
-			return colorMat;
+		private sealed class CompleteListener : Java.Lang.Object, Android.Gms.Tasks.IOnCompleteListener
+		{
+			private readonly Action _callback;
+			public CompleteListener(Action callback) => _callback = callback;
+			public void OnComplete(Android.Gms.Tasks.Task task) => _callback();
 		}
 	}
-
 }

@@ -1,38 +1,45 @@
 # COT 4900 — Facial Recognition for HCI
 
 **Course:** COT 4900 — Facial Recognition for HCI  
-**Term:** Fall 2017  
+**Term:** Fall 2017 (modernized to .NET 8)  
 **School:** Florida Atlantic University (FAU)  
 **Author:** John Hernandez
 
-Windows / mobile prototypes that use a webcam (or device camera) plus OpenCV / Google Vision for face and eye tracking in HCI experiments.
+Webcam / device-camera prototypes for face and eye tracking in HCI experiments.
 
 ## Layout
 
 | Path | Description |
 |------|-------------|
-| `EyeTracker.sln` | Full solution (opens projects under `src/`) |
-| `src/EyeTracker/` | WinForms eye tracker (`EyeTrackerOnWindows`) |
-| `src/MobileEyeTracker/` | Xamarin / OpenCV Android eye tracker |
-| `src/EyeTrackWithGoogleVision/` | Android Google Vision face tracker |
-| `src/OpenCV.Binding/` | **Third-party support** — OpenCV Android binding (see `THIRD_PARTY.md`) |
+| `EyeTracker.sln` | Active solution (Windows + Android) |
+| `src/EyeTracker/` | **.NET 8** WinForms eye tracker (`net8.0-windows`, Emgu.CV) |
+| `src/MobileEyeTracker/` | **.NET 8** Android eye/face tracker (`net8.0-android`, CameraX + ML Kit) |
 | `Captures/` | Session videos, session logs, and related media |
+| `archive/xamarin/` | Original Xamarin projects (Google Vision + OpenCV.Binding mobile) |
 | `submitted/orginal export submited/` | Original multipart `EyeTrackerTests.7z` submission archive |
 
-## Third-party support
+## What changed in the modernization
 
-- `src/OpenCV.Binding/` — vendor OpenCV binding used by `MobileEyeTracker` only; not authored coursework. Details: [`src/OpenCV.Binding/THIRD_PARTY.md`](src/OpenCV.Binding/THIRD_PARTY.md).
-- Emgu.CV on Windows may be under LGPL; see `src/EyeTracker/License-LGPL.txt` where present.
-
-## Stack (as archived)
-
-- C# / **.NET Framework 4.8.1** (Windows Forms Emgu.CV app)
-- Xamarin.Android + OpenCV / Google Vision (mobile projects)
-- Haar cascades for face and eye detection
+- Dropped third-party `OpenCV.Binding` (large native OpenCV Android binding).
+- Windows app retargeted from .NET Framework to **`net8.0-windows`** with Emgu.CV 4.9 PackageReferences.
+- Mobile OpenCV/Xamarin app replaced by a **.NET 8 Android** app using CameraX + ML Kit Face Detection (OpenCV Binding is no longer required).
+- `EyeTrackWithGoogleVision` kept under `archive/xamarin/` (Google Mobile Vision is deprecated).
 
 ## Build
 
-1. Install the [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/net481) (Windows).
-2. Open `EyeTracker.sln` in Visual Studio (Android workload optional for mobile projects).
-3. Restore NuGet packages into the repo-root `packages/` folder.
-4. Build/run `EyeTrackerOnWindows` with a webcam for the desktop prototype.
+### Windows (`EyeTrackerOnWindows`)
+
+1. Install [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) and Visual Studio 2022 (Windows workload).
+2. Open `EyeTracker.sln` or:
+   `dotnet build src/EyeTracker/EyeTrackerOnWindows.csproj -c Release`
+3. Run on Windows with a webcam.
+
+### Android (`EyeTrackerWithOpenCV`)
+
+1. Install .NET 8 SDK + Android workload: `dotnet workload install android`
+2. `dotnet build src/MobileEyeTracker/EyeTrackerWithOpenCV.csproj -c Release`
+3. Deploy to an emulator or device (camera permission required).
+
+## License
+
+Emgu.CV / OpenCV components are under their upstream licenses (see `src/EyeTracker/License-LGPL.txt` where present). ML Kit / AndroidX packages use Google / AndroidX terms.

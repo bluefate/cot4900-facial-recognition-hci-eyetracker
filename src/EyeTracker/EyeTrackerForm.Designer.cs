@@ -1,4 +1,5 @@
-﻿namespace EyeTrackerOnWindows
+﻿#nullable disable
+namespace EyeTrackerOnWindows
 {
 	partial class EyeTrackerForm
 	{
