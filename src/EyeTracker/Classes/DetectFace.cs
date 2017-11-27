@@ -31,7 +31,7 @@ namespace EyeTrackerOnWindows
 						if (eyePosition < face.Y + face.Height / 2)
 						{
 							eyes.Rectangles.Add(eyeRect);
-							using (Mat eyeRegion = new Mat(grayMat, eye))
+							using (Mat eyeRegion = new Mat(grayMat, eyeRect))
 							{
 								//valueTracked = (int)(face.Width * 0.25);
 								int faceWidth = face.Width;

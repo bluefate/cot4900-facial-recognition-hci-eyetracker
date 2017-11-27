@@ -1,81 +1,106 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace EyeTrackerOnWindows
 {
 	public partial class EyeTrackerForm : Form
 	{
+		private const int LineThickness = 1;
 
-		private VideoCapture capture;
+		private VideoCapture _capture;
+		private ItemsDetected _faces;
+		private ItemsDetected _eyes;
+		private ItemsDetected _irises;
+		private bool _cameraErrorShown;
 
 		public EyeTrackerForm()
 		{
 			InitializeComponent();
+			FormClosed += OnFormClosed;
 
 			try
 			{
-				capture = new VideoCapture();
-			Application.Idle += new EventHandler(ProcessFrame);
+				_capture = new VideoCapture();
+				_faces = new ItemsDetected("haarcascade_frontalface_default.xml");
+				_eyes = new ItemsDetected("haarcascade_eye.xml");
+				_irises = new ItemsDetected();
 
+				Application.Idle += ProcessFrame;
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				MessageBox.Show(e.Message);
-				return;
+				ShowCameraError(ex.Message);
 			}
 		}
 
 		private void ProcessFrame(object sender, EventArgs e)
 		{
+			if (_capture == null)
+				return;
+
 			try
 			{
-				if (capture?.QueryFrame() is null)
+				using (Mat frame = _capture.QueryFrame())
 				{
-					NoCameraError();
-					return;
+					if (frame == null || frame.IsEmpty)
+					{
+						ShowCameraError("No image found. Camera may not be connected.");
+						return;
+					}
+
+					_cameraErrorShown = false;
+					ErrorMessage.Visible = false;
+
+					_faces.Rectangles.Clear();
+					_eyes.Rectangles.Clear();
+					_irises.Circles.Clear();
+
+					DetectFace.Detect(frame, _faces, _eyes, _irises);
+
+					foreach (Rectangle face in _faces.Rectangles)
+						CvInvoke.Rectangle(frame, face, new Bgr(Color.Red).MCvScalar, LineThickness);
+
+					foreach (Rectangle eye in _eyes.Rectangles)
+						CvInvoke.Rectangle(frame, eye, new Bgr(Color.Blue).MCvScalar, LineThickness);
+
+					foreach (Circle iris in _irises.Circles)
+						CvInvoke.Circle(frame, iris.Center, iris.Radius, new Bgr(Color.Green).MCvScalar, LineThickness);
+
+					Image previous = pictureBox1.Image;
+					using (Image<Bgr, byte> imageFrame = frame.ToImage<Bgr, byte>())
+					{
+						pictureBox1.Image = imageFrame.ToBitmap();
+					}
+					previous?.Dispose();
 				}
-
-				Mat frame = capture.QueryFrame();
-
-				ItemsDetected faces = new ItemsDetected("haarcascade_frontalface_default.xml");
-				//ItemsDetected faces = new ItemsDetected("haarcascade_frontalface_alt.xml");
-				ItemsDetected eyes = new ItemsDetected("haarcascade_eye.xml");
-				//ItemsDetected eyes = new ItemsDetected("haarcascade_eye_tree_eyeglasses.xml");
-				ItemsDetected irises = new ItemsDetected();
-
-				DetectFace.Detect(frame, faces, eyes, irises);
-
-				int lineThikness = 1;
-
-				foreach (Rectangle face in faces.Rectangles)
-					CvInvoke.Rectangle(frame, face, new Bgr(Color.Red).MCvScalar, lineThikness);
-				foreach (Rectangle eye in eyes.Rectangles)
-					CvInvoke.Rectangle(frame, eye, new Bgr(Color.Blue).MCvScalar, lineThikness);
-				//foreach (Circle iris in irises.Circles)
-				//	CvInvoke.Circle(frame, iris.Center, iris.Radius, new Bgr(Color.Green).MCvScalar, lineThikness);
-
-				Image<Bgr, Byte> ImageFrame = frame.ToImage<Bgr, Byte>();
-				pictureBox1.Image = ImageFrame.ToBitmap();
 			}
-			catch { return; }
-
+			catch
+			{
+				// Keep the idle loop alive if a single frame fails.
+			}
 		}
 
-		private void ViewerClosed(object sender, EventArgs e)
+		private void OnFormClosed(object sender, FormClosedEventArgs e)
 		{
-			Application.Exit();
+			Application.Idle -= ProcessFrame;
+			_capture?.Dispose();
+			_capture = null;
+			pictureBox1.Image?.Dispose();
+			pictureBox1.Image = null;
 		}
 
-		private void NoCameraError()
+		private void ShowCameraError(string message)
 		{
 			ErrorMessage.Visible = true;
-			ErrorMessage.Text = "No image found. Camera may not be conencted";
-
+			ErrorMessage.Text = message;
+			if (!_cameraErrorShown)
+			{
+				_cameraErrorShown = true;
+				MessageBox.Show(message, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
-
 	}
-
 }
