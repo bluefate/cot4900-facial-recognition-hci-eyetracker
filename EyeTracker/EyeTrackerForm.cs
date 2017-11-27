@@ -1,19 +1,15 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using EyeTracker.Classes;
-using FaceDetection;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace EyeTracker
+namespace EyeTrackerOnWindows
 {
 	public partial class EyeTrackerForm : Form
 	{
 
 		private VideoCapture capture;
-		int valueTracked ;
 
 		public EyeTrackerForm()
 		{
@@ -22,13 +18,7 @@ namespace EyeTracker
 			try
 			{
 				capture = new VideoCapture();
-				Application.Idle += new EventHandler(ProcessFrame);
-
-				valueTracked = 50;
-				trackBar.Maximum = valueTracked * 5;
-				trackBar.Minimum = -trackBar.Maximum;
-				trackBar.Value = valueTracked;
-				trackerLabel.Text = valueTracked.ToString();
+			Application.Idle += new EventHandler(ProcessFrame);
 
 			}
 			catch (Exception e)
@@ -56,10 +46,7 @@ namespace EyeTracker
 				//ItemsDetected eyes = new ItemsDetected("haarcascade_eye_tree_eyeglasses.xml");
 				ItemsDetected irises = new ItemsDetected();
 
-				//DetectFace.Detect(frame, faces, eyes, irises, ref valueTracked);
-				DetectFace.Detect(frame, faces, eyes, irises,  valueTracked);
-				trackBar.Value = valueTracked;
-				trackerLabel.Text = valueTracked.ToString();
+				DetectFace.Detect(frame, faces, eyes, irises);
 
 				int lineThikness = 1;
 
@@ -88,13 +75,6 @@ namespace EyeTracker
 			ErrorMessage.Text = "No image found. Camera may not be conencted";
 
 		}
-
-		private void trackBar1_Scroll(object sender, EventArgs e)
-		{
-			valueTracked = trackBar.Value;
-			trackerLabel.Text = valueTracked.ToString();
-		}
-
 
 	}
 

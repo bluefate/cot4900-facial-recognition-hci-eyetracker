@@ -5,36 +5,34 @@
 **School:** Florida Atlantic University (FAU)  
 **Author:** John Hernandez
 
-Windows Forms prototype that uses a webcam plus Haar cascades to detect faces and eyes in real time for human–computer interaction experiments.
+Windows / mobile prototypes that use a webcam (or device camera) plus OpenCV / Google Vision for face and eye tracking in HCI experiments.
 
-## What’s in this repo
+## Layout
 
 | Path | Description |
 |------|-------------|
-| `EyeTracker.sln` | Visual Studio solution |
-| `EyeTracker/` | WinForms app (Emgu.CV / OpenCV) |
-| `Looking directly into the camera.docx` | Course project write-up / notes |
-| Haar cascade XMLs | Face and eye detectors used at runtime |
+| `EyeTracker.sln` | Full solution (Windows, mobile, Google Vision, OpenCV binding) |
+| `EyeTracker/` | WinForms eye tracker (`EyeTrackerOnWindows`) + `Captures/` session videos |
+| `MobileEyeTracker/` | Xamarin / OpenCV Android eye tracker |
+| `EyeTrackWithGoogleVision/` | Android Google Vision face tracker |
+| `OpenCV.Binding/` | OpenCV Android binding project |
+| `submitted/orginal export submited/` | Original multipart `EyeTrackerTests.7z` submission archive |
+| `Looking directly into the camera.docx` | Course notes / write-up |
 
-The UI captures frames from the default camera, runs face and eye detection, and draws rectangles on the live preview (faces in red, eyes in blue). A track bar adjusts a detection sensitivity parameter.
+The Windows UI captures frames, runs face/eye detection, and draws overlays. Session recordings from Oct 3 and Nov 7 2017 live under `EyeTracker/Captures/` with `SESSION.md` logs.
 
 ## Stack (as archived)
 
-- C# / .NET Framework 4.6.1
-- Windows Forms
-- [Emgu.CV](http://www.emgu.com/) 3.3.0.2824 (OpenCV wrapper)
-- OpenCV Haar cascades (`haarcascade_frontalface_default.xml`, `haarcascade_eye.xml`, plus alternate cascade files)
+- C# / .NET Framework (Windows Forms Emgu.CV app)
+- Xamarin.Android + OpenCV / Google Vision (mobile projects)
+- Haar cascades for face and eye detection
 
-## Build notes
+## Build
 
-This tree is a restored archive. The `.csproj` also references helper types under `Classes/` (`DetectFace`, `ItemsDetected`, `Circle`, `Program`) and `Properties/` that are not present in this snapshot. Restoring those sources (or rewriting the detection helpers) is required before a clean build.
-
-To work with what is here:
-
-1. Open `EyeTracker.sln` in Visual Studio (Windows).
-2. Restore NuGet packages (`EMGU.CV`, `ZedGraph`).
-3. Ensure a webcam is available when running.
+1. Open `EyeTracker.sln` in Visual Studio (Windows; Android workload for mobile projects).
+2. Restore NuGet packages.
+3. Build/run `EyeTrackerOnWindows` with a webcam for the desktop prototype.
 
 ## License
 
-Emgu.CV components in this project are under the LGPL; see `EyeTracker/License-LGPL.txt`.
+Emgu.CV / OpenCV components may be under LGPL or their upstream licenses; see `EyeTracker/License-LGPL.txt` where present.

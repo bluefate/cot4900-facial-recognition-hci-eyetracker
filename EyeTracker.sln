@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTracker", "EyeTracker\EyeTracker.csproj", "{B209A58D-5929-4344-B817-D2A3B6C1BE54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackerOnWindows", "EyeTracker\EyeTrackerOnWindows.csproj", "{B209A58D-5929-4344-B817-D2A3B6C1BE54}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV.Binding", "OpenCV.Binding\OpenCV.Binding.csproj", "{3675B5A0-535B-4CFB-B523-ED60837278B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileEyeTracker", "MobileEyeTracker\MobileEyeTracker.csproj", "{8B80139F-1ECC-47D5-940D-651CD2D3C96B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackerWithOpenCV", "MobileEyeTracker\EyeTrackerWithOpenCV.csproj", "{8B80139F-1ECC-47D5-940D-651CD2D3C96B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackWithGoogleVision", "EyeTrackWithGoogleVision\EyeTrackWithGoogleVision.csproj", "{CC79E560-3B15-4CAE-B6EC-79168F079E63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +127,48 @@ Global
 		{8B80139F-1ECC-47D5-940D-651CD2D3C96B}.Release|x86_64.ActiveCfg = Release|Any CPU
 		{8B80139F-1ECC-47D5-940D-651CD2D3C96B}.Release|x86_64.Build.0 = Release|Any CPU
 		{8B80139F-1ECC-47D5-940D-651CD2D3C96B}.Release|x86_64.Deploy.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|arm64-v8a.ActiveCfg = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|arm64-v8a.Build.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|arm64-v8a.Deploy.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|armeabi.ActiveCfg = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|armeabi.Build.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|armeabi.Deploy.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|armeabi-v7a.ActiveCfg = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|armeabi-v7a.Build.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|armeabi-v7a.Deploy.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|None.ActiveCfg = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|None.Build.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|None.Deploy.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|x86.Build.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|x86_64.ActiveCfg = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|x86_64.Build.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Debug|x86_64.Deploy.0 = Debug|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|arm64-v8a.ActiveCfg = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|arm64-v8a.Build.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|arm64-v8a.Deploy.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|armeabi.ActiveCfg = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|armeabi.Build.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|armeabi.Deploy.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|armeabi-v7a.ActiveCfg = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|armeabi-v7a.Build.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|armeabi-v7a.Deploy.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|None.ActiveCfg = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|None.Build.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|None.Deploy.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|x86.Build.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|x86.Deploy.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|x86_64.ActiveCfg = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|x86_64.Build.0 = Release|Any CPU
+		{CC79E560-3B15-4CAE-B6EC-79168F079E63}.Release|x86_64.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,18 +177,21 @@ Global
 		SolutionGuid = {57719F61-C9AD-40FC-8C31-95979A972974}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://bluefate.visualstudio.com/
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = EyeTracker\\EyeTracker.csproj
-		SccProjectName1 = EyeTracker
-		SccLocalPath1 = EyeTracker
-		SccProjectUniqueName2 = OpenCV.Binding\\OpenCV.Binding.csproj
-		SccProjectName2 = OpenCV.Binding
-		SccLocalPath2 = OpenCV.Binding
-		SccProjectUniqueName3 = MobileEyeTracker\\MobileEyeTracker.csproj
-		SccProjectName3 = MobileEyeTracker
-		SccLocalPath3 = MobileEyeTracker
+		SccProjectUniqueName1 = OpenCV.Binding\\OpenCV.Binding.csproj
+		SccProjectName1 = OpenCV.Binding
+		SccLocalPath1 = OpenCV.Binding
+		SccProjectUniqueName2 = MobileEyeTracker\\EyeTrackerWithOpenCV.csproj
+		SccProjectName2 = MobileEyeTracker
+		SccLocalPath2 = MobileEyeTracker
+		SccProjectUniqueName3 = EyeTracker\\EyeTrackerOnWindows.csproj
+		SccProjectName3 = EyeTracker
+		SccLocalPath3 = EyeTracker
+		SccProjectUniqueName4 = EyeTrackWithGoogleVision\\EyeTrackWithGoogleVision.csproj
+		SccProjectName4 = EyeTrackWithGoogleVision
+		SccLocalPath4 = EyeTrackWithGoogleVision
 	EndGlobalSection
 EndGlobal
