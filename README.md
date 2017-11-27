@@ -15,7 +15,7 @@ Windows / mobile prototypes that use a webcam (or device camera) plus OpenCV / G
 | `EyeTracker/` | WinForms eye tracker (`EyeTrackerOnWindows`) + `Captures/` session videos |
 | `MobileEyeTracker/` | Xamarin / OpenCV Android eye tracker |
 | `EyeTrackWithGoogleVision/` | Android Google Vision face tracker |
-| `OpenCV.Binding/` | OpenCV Android binding project |
+| `OpenCV.Binding/` | **Third-party support** — OpenCV Android binding (see `OpenCV.Binding/THIRD_PARTY.md`) |
 | `submitted/orginal export submited/` | Original multipart `EyeTrackerTests.7z` submission archive |
 | `Looking directly into the camera.docx` | Course notes / write-up |
 
@@ -33,6 +33,7 @@ The Windows UI captures frames, runs face/eye detection, and draws overlays. Ses
 2. Restore NuGet packages.
 3. Build/run `EyeTrackerOnWindows` with a webcam for the desktop prototype.
 
-## License
+## Third-party support
 
-Emgu.CV / OpenCV components may be under LGPL or their upstream licenses; see `EyeTracker/License-LGPL.txt` where present.
+- `OpenCV.Binding/` — vendor OpenCV binding used by `MobileEyeTracker` only; not authored coursework. Details: [`OpenCV.Binding/THIRD_PARTY.md`](OpenCV.Binding/THIRD_PARTY.md).
+- Emgu.CV on Windows may be under LGPL; see `EyeTracker/License-LGPL.txt` where present.
