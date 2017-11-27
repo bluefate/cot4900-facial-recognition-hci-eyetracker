@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackerOnWindows", "EyeTracker\EyeTrackerOnWindows.csproj", "{B209A58D-5929-4344-B817-D2A3B6C1BE54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackerOnWindows", "src\EyeTracker\EyeTrackerOnWindows.csproj", "{B209A58D-5929-4344-B817-D2A3B6C1BE54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV.Binding", "OpenCV.Binding\OpenCV.Binding.csproj", "{3675B5A0-535B-4CFB-B523-ED60837278B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV.Binding", "src\OpenCV.Binding\OpenCV.Binding.csproj", "{3675B5A0-535B-4CFB-B523-ED60837278B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackerWithOpenCV", "MobileEyeTracker\EyeTrackerWithOpenCV.csproj", "{8B80139F-1ECC-47D5-940D-651CD2D3C96B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackerWithOpenCV", "src\MobileEyeTracker\EyeTrackerWithOpenCV.csproj", "{8B80139F-1ECC-47D5-940D-651CD2D3C96B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackWithGoogleVision", "EyeTrackWithGoogleVision\EyeTrackWithGoogleVision.csproj", "{CC79E560-3B15-4CAE-B6EC-79168F079E63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeTrackWithGoogleVision", "src\EyeTrackWithGoogleVision\EyeTrackWithGoogleVision.csproj", "{CC79E560-3B15-4CAE-B6EC-79168F079E63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,17 +181,17 @@ Global
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://bluefate.visualstudio.com/
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = OpenCV.Binding\\OpenCV.Binding.csproj
+		SccProjectUniqueName1 = src\\OpenCV.Binding\\OpenCV.Binding.csproj
 		SccProjectName1 = OpenCV.Binding
-		SccLocalPath1 = OpenCV.Binding
-		SccProjectUniqueName2 = MobileEyeTracker\\EyeTrackerWithOpenCV.csproj
+		SccLocalPath1 = src\OpenCV.Binding
+		SccProjectUniqueName2 = src\\MobileEyeTracker\\EyeTrackerWithOpenCV.csproj
 		SccProjectName2 = MobileEyeTracker
-		SccLocalPath2 = MobileEyeTracker
-		SccProjectUniqueName3 = EyeTracker\\EyeTrackerOnWindows.csproj
+		SccLocalPath2 = src\MobileEyeTracker
+		SccProjectUniqueName3 = src\\EyeTracker\\EyeTrackerOnWindows.csproj
 		SccProjectName3 = EyeTracker
-		SccLocalPath3 = EyeTracker
-		SccProjectUniqueName4 = EyeTrackWithGoogleVision\\EyeTrackWithGoogleVision.csproj
+		SccLocalPath3 = src\EyeTracker
+		SccProjectUniqueName4 = src\\EyeTrackWithGoogleVision\\EyeTrackWithGoogleVision.csproj
 		SccProjectName4 = EyeTrackWithGoogleVision
-		SccLocalPath4 = EyeTrackWithGoogleVision
+		SccLocalPath4 = src\EyeTrackWithGoogleVision
 	EndGlobalSection
 EndGlobal
