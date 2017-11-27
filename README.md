@@ -7,6 +7,18 @@
 
 Windows / mobile prototypes that use a webcam (or device camera) plus OpenCV / Google Vision for face and eye tracking in HCI experiments.
 
+## Historical screenshots (Fall 2017)
+
+Stills from original **Eye Tracker Form** session recordings. Overlays: face (red), eyes (blue), iris (green).
+
+**3 October 2017**
+
+<img src="Captures/stills/2017-10-03-eye-tracker-form.jpg" alt="Eye Tracker Form — 3 Oct 2017" width="280" />
+
+**7 November 2017**
+
+<img src="Captures/stills/2017-11-07-eye-tracker-form.jpg" alt="Eye Tracker Form — 7 Nov 2017" width="280" />
+
 ## Layout
 
 | Path | Description |
