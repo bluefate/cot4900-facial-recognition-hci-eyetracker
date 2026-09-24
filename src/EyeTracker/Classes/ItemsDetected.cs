@@ -34,6 +34,7 @@ namespace EyeTrackerOnWindows
 		public ItemsDetected(string haarcascadeFileName)
 		{
 			Rectangles = new List<Rectangle>();
+			Circles = new List<Circle>();
 			HaarCascade = haarcascadeFileName;
 		}
 

@@ -26,12 +26,13 @@ Windows / mobile prototypes that use a webcam (or device camera) plus OpenCV / G
 
 ## Stack (as archived)
 
-- C# / .NET Framework (Windows Forms Emgu.CV app)
+- C# / **.NET Framework 4.8.1** (Windows Forms Emgu.CV app)
 - Xamarin.Android + OpenCV / Google Vision (mobile projects)
 - Haar cascades for face and eye detection
 
 ## Build
 
-1. Open `EyeTracker.sln` in Visual Studio (Windows; Android workload for mobile projects).
-2. Restore NuGet packages into the repo-root `packages/` folder.
-3. Build/run `EyeTrackerOnWindows` with a webcam for the desktop prototype.
+1. Install the [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/net481) (Windows).
+2. Open `EyeTracker.sln` in Visual Studio (Android workload optional for mobile projects).
+3. Restore NuGet packages into the repo-root `packages/` folder.
+4. Build/run `EyeTrackerOnWindows` with a webcam for the desktop prototype.
