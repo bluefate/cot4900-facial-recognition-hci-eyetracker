@@ -1,0 +1,6 @@
+# Keep GitHub language stats on authored code (not vendor OpenCV JavaDoc / binaries).
+src/OpenCV.Binding/** linguist-vendored
+
+# Session media and submission archives are not source.
+Captures/** linguist-vendored
+submitted/** linguist-vendored
