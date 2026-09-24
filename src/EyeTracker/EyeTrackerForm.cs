@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Emgu.CV;
+using Emgu.CV.Bitmap;
 using Emgu.CV.Structure;
 
 namespace EyeTrackerOnWindows
@@ -70,10 +71,7 @@ namespace EyeTrackerOnWindows
 						CvInvoke.Circle(frame, iris.Center, iris.Radius, new Bgr(Color.Green).MCvScalar, LineThickness);
 
 					Image previous = pictureBox1.Image;
-					using (Image<Bgr, byte> imageFrame = frame.ToImage<Bgr, byte>())
-					{
-						pictureBox1.Image = imageFrame.ToBitmap();
-					}
+					pictureBox1.Image = frame.ToBitmap();
 					previous?.Dispose();
 				}
 			}
