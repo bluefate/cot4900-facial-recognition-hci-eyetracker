@@ -24,7 +24,7 @@ Stills from original **Eye Tracker Form** session recordings. Overlays: face (re
 | Path | Description |
 |------|-------------|
 | `EyeTracker.sln` | Full solution (opens projects under `src/`) |
-| `src/EyeTracker/` | WinForms eye tracker (`EyeTrackerOnWindows`) — `net481` + `net8.0-windows` |
+| `src/EyeTracker/` | WinForms eye tracker (`EyeTrackerOnWindows`) — `net481` + `net8.0-windows` + `net9.0-windows` |
 | `src/MobileEyeTracker/` | Xamarin / OpenCV Android eye tracker |
 | `src/EyeTrackWithGoogleVision/` | Android Google Vision face tracker |
 | `src/OpenCV.Binding/` | **Third-party support** — OpenCV Android binding (see `THIRD_PARTY.md`) |
@@ -38,13 +38,13 @@ Stills from original **Eye Tracker Form** session recordings. Overlays: face (re
 
 ## Stack
 
-- **Windows eye tracker** (`src/EyeTracker/`): multi-targets **.NET Framework 4.8.1** (`net481`) and **.NET 8** (`net8.0-windows`), WinForms + Emgu.CV 4.9
+- **Windows eye tracker** (`src/EyeTracker/`): multi-targets **.NET Framework 4.8.1** (`net481`), **.NET 8** (`net8.0-windows`), and **.NET 9** (`net9.0-windows`), WinForms + Emgu.CV 4.9
 - Xamarin.Android + OpenCV / Google Vision (mobile projects; unchanged archive stack)
 - Haar cascades for face and eye detection
 
 ## Build (Windows eye tracker)
 
-From a Windows machine with the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (and optionally the [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/net481)):
+From a Windows machine with the [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) (covers 8/9 builds; optionally also the [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/net481)):
 
 ```bash
 dotnet restore src/EyeTracker/EyeTrackerOnWindows.csproj
@@ -53,7 +53,9 @@ dotnet build src/EyeTracker/EyeTrackerOnWindows.csproj -c Release
 dotnet build src/EyeTracker/EyeTrackerOnWindows.csproj -f net481 -c Release
 # .NET 8 only:
 dotnet build src/EyeTracker/EyeTrackerOnWindows.csproj -f net8.0-windows -c Release
-dotnet run --project src/EyeTracker/EyeTrackerOnWindows.csproj -f net8.0-windows
+# .NET 9 only:
+dotnet build src/EyeTracker/EyeTrackerOnWindows.csproj -f net9.0-windows -c Release
+dotnet run --project src/EyeTracker/EyeTrackerOnWindows.csproj -f net9.0-windows
 ```
 
 Or open `EyeTracker.sln` in Visual Studio and run `EyeTrackerOnWindows` with a webcam. Mobile projects still need the Android workload / Xamarin tooling.
